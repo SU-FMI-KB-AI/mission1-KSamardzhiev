@@ -24,3 +24,5 @@ MATCH(movies:Movie) WHERE movies.imdbRating > 8.0 RETURN movies
 MATCH(movies:Movie) WHERE movies.imdbRating < 4.0 RETURN movies
 
 MATCH (n:Director) RETURN n LIMIT 25
+
+MATCH(m:Movie) -[:IN_GENRE]-> (:Genre {name:"Documentary"}) RETURN m LIMIT 25
