@@ -1,0 +1,26 @@
+CREATE(you:Person {name:"Kostadin"})
+
+MATCH(you:Person {name:"Kostadin"}) CREATE(you) -[like:LIKE]-> (neo:Database {name:"Neo4j"}) RETURN neo,you,like
+
+MATCH (you:Person {name:"Kostadin"}) FOREACH (name in ["Vasko", "Phill", "Alex", "George"] | CREATE (you) -[:FRIEND]-> (:Person {name:name}))
+
+MATCH(you:Person {name:"Kostadin"}) -[:FRIEND]-> (yourFriends) RETURN you,yourFriends
+
+MATCH (neo:Database {name:"Neo4j"}) MATCH (phill:Person {name:"Phill"}) CREATE (phill) -[:FRIEND]-> (:Person:Expert {name:"John"}) -[:WORKED_WITH]->(neo)
+
+MATCH(you:Person {name:"Kostadin"})
+MATCH(expert) -[:WORKED_WITH]->(db:Database {name:"Neo4j"})
+MATCH path = shortestPath(  (you) -[:FRIEND*..5]-(expert))
+RETURN db,expert,path
+
+--- in new sandbox about movies--- 
+
+MATCH (tom {name: "Tom Hanks"}) RETURN tom
+
+MATCH (cloudAtlas {title: "Cloud Atlas"}) RETURN cloudAtlas
+
+MATCH(movies:Movie) WHERE movies.imdbRating > 8.0 RETURN movies
+
+MATCH(movies:Movie) WHERE movies.imdbRating < 4.0 RETURN movies
+
+MATCH (n:Director) RETURN n LIMIT 25
